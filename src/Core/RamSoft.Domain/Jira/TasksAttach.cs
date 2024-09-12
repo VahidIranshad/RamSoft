@@ -1,6 +1,8 @@
-﻿namespace RamSoft.Domain.Jira
+﻿using RamSoft.Domain.Base;
+
+namespace RamSoft.Domain.Jira
 {
-    public class TasksAttach
+    public class TasksAttach : BaseEntity
     {
     }
 }
