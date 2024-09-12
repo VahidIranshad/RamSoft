@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using RamSoft.Application.Features.StatesFeature.Commands.Create;
 
-namespace RamSoft.UnitTest.Feature.StatesFeature
+namespace RamSoft.UnitTest.Feature.StatesFeature.Create
 {
     public class CreateStatesValidationTests
     {

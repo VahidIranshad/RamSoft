@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\StatesFeature\Commands\Delete\" />
-    <Folder Include="Features\StatesFeature\Commands\Update\" />
     <Folder Include="Features\StatesFeature\Queries\" />
   </ItemGroup>
   <ItemGroup>
