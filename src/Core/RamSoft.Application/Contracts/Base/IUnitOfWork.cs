@@ -1,12 +1,11 @@
-﻿using RamSoft.Domain.Base;
+﻿using RamSoft.Application.Contracts.Jira;
 
 namespace RamSoft.Application.Contracts.Base
 {
-    public interface IUnitOfWork<TClass> : IDisposable
-         where TClass : BaseEntity
+    public interface IUnitOfWork : IDisposable
     {
 
-        IGenericRepository<TClass> Repository();
+        IStatesRepository StatesRepository { get; }
 
         Task<int> Commit(CancellationToken cancellationToken);
 
