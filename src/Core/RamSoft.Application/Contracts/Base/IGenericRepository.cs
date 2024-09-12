@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace RamSoft.Application.Contracts.Base
 {
-    public interface IGenericRepository<T, Y> where T : BaseEntity<Y> 
+    public interface IGenericRepository<T> where T : BaseEntity 
     {
         Task<IReadOnlyList<T>> GetAll();
         Task<T> Get(int id);

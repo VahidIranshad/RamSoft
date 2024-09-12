@@ -3,7 +3,7 @@ using RamSoft.Domain.Jira;
 
 namespace RamSoft.Application.Contracts.Jira
 {
-    public interface ITaskBoardRepository : IGenericRepository<TaskBoard, int>
+    public interface ITaskBoardRepository : IGenericRepository<TaskBoard>
     {
     }
 }

@@ -2,11 +2,11 @@
 
 namespace RamSoft.Application.Contracts.Base
 {
-    public interface IUnitOfWork<T> : IDisposable
-         where T : BaseEntity
+    public interface IUnitOfWork<TClass> : IDisposable
+         where TClass : BaseEntity
     {
 
-        IGenericRepository<T> Repository();
+        IGenericRepository<TClass> Repository();
 
         Task<int> Commit(CancellationToken cancellationToken);
 
