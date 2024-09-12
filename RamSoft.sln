@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{AB135988-23D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RamSoft.Domain", "src\Core\RamSoft.Domain\RamSoft.Domain.csproj", "{643A454F-DD5B-40F0-BD0C-A7C05EE03DE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RamSoft.Application", "src\Core\RamSoft.Application\RamSoft.Application.csproj", "{5BE45A86-CB73-419B-9715-5F2106CFCF32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{643A454F-DD5B-40F0-BD0C-A7C05EE03DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{643A454F-DD5B-40F0-BD0C-A7C05EE03DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{643A454F-DD5B-40F0-BD0C-A7C05EE03DE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE45A86-CB73-419B-9715-5F2106CFCF32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE45A86-CB73-419B-9715-5F2106CFCF32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE45A86-CB73-419B-9715-5F2106CFCF32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE45A86-CB73-419B-9715-5F2106CFCF32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -34,6 +40,7 @@ Global
 		{64AA1432-BD8B-4F71-A7B7-E038E5A137FE} = {4BB191E3-E928-4A39-B753-E1765A656FBA}
 		{AB135988-23DE-421F-89D2-B8376E43F377} = {4BB191E3-E928-4A39-B753-E1765A656FBA}
 		{643A454F-DD5B-40F0-BD0C-A7C05EE03DE2} = {E405DF00-DDDA-4822-AFB2-18BC3E663368}
+		{5BE45A86-CB73-419B-9715-5F2106CFCF32} = {E405DF00-DDDA-4822-AFB2-18BC3E663368}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB5F2B21-EA65-4C19-9AFE-C6F08DE7AB4E}
