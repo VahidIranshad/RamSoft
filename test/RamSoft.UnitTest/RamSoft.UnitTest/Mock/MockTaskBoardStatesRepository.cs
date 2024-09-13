@@ -32,6 +32,12 @@ namespace RamSoft.UnitTest.Mock
                 return list.AsQueryable().Where(expression).Where(p => p.IsDeleted == false).ToList();
             });
 
+            mockRepo.Setup(r => r.GetListByTaskBoardId(It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int taskBoardId, CancellationToken cancellation) =>
+            {
+                return list.Where(p => p.TaskBoardId == taskBoardId && p.IsDeleted == false).ToList();
+            });
+
+
             mockRepo.Setup(r => r.Add(It.IsAny<TaskBoardStates>(), CancellationToken.None)).ReturnsAsync((TaskBoardStates data, CancellationToken cancellation) =>
             {
                 list.Add(data);
@@ -54,6 +60,11 @@ namespace RamSoft.UnitTest.Mock
             mockRepo.Setup(r => r.Exists(It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int id, CancellationToken cancellation) =>
             {
                 return list.Any(p => p.Id == id && p.IsDeleted == false);
+            });
+
+            mockRepo.Setup(r => r.Exists(It.IsAny<int>(), It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int taskBoardId, int statesId, CancellationToken cancellation) =>
+            {
+                return list.Any(p => p.Id == taskBoardId && p.StatesId == statesId && p.IsDeleted == false);
             });
 
             return mockRepo;
