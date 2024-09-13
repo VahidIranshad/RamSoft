@@ -3,22 +3,21 @@ using RamSoft.Application.Contracts.Base;
 using RamSoft.Application.Exceptions;
 using RamSoft.Application.Features.Base;
 
-namespace RamSoft.Application.Features.StatesFeature.Commands.Delete
+namespace RamSoft.Application.Features.TaskBoardFeature.Commands.Delete
 {
-
-    public class DeleteStatesCommandHandler : ICommandHandler<DeleteStatesCommand, Unit>
+    public class DeleteTaskBoardCommandHandler : ICommandHandler<DeleteTaskBoardCommand, Unit>
     {
 
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteStatesCommandHandler(IUnitOfWork unitOfWork)
+        public DeleteTaskBoardCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Unit> Handle(DeleteStatesCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteTaskBoardCommand request, CancellationToken cancellationToken)
         {
-            var validator = new DeleteStatesValidation(_unitOfWork.StatesRepository, cancellationToken);
+            var validator = new DeleteTaskBoardValidation(_unitOfWork.TaskBoardRepository, cancellationToken);
             var validationResult = await validator.ValidateAsync(request);
 
 
@@ -29,7 +28,7 @@ namespace RamSoft.Application.Features.StatesFeature.Commands.Delete
             else
             {
 
-                await _unitOfWork.StatesRepository.Delete(request.Id, cancellationToken);
+                await _unitOfWork.TaskBoardRepository.Delete(request.Id, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

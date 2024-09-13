@@ -5,40 +5,40 @@ using System.Linq.Expressions;
 
 namespace RamSoft.UnitTest.Mock
 {
-    public class MockStatesRepository
+    public class MockTaskBoardRepository
     {
-        public static Mock<IStatesRepository> GetRepository()
+
+        public static Mock<ITaskBoardRepository> GetRepository()
         {
-            var list = new List<States>()
+            var list = new List<TaskBoard>()
             {
-                new States{Id = 1, Name = "ToDo"},
-                new States{Id = 2, Name = "InProgress"},
-                new States{Id = 3, Name = "Done"},
+                new TaskBoard{Id = 1, Name = "ToDo", DefaultStatesId = 1 }
             };
 
-            var mockRepo = new Mock<IStatesRepository>();
+            var mockRepo = new Mock<ITaskBoardRepository>();
 
             mockRepo.Setup(r => r.GetAll(CancellationToken.None)).ReturnsAsync((CancellationToken cancellation) =>
                 list.Where(p => p.IsDeleted == false).ToList()
                 );
+
 
             mockRepo.Setup(r => r.Get(It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int id, CancellationToken cancellation) =>
             {
                 return list.Where(p => p.Id == id && p.IsDeleted == false).First();
             });
 
-            mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<States, bool>>>(), CancellationToken.None)).ReturnsAsync((Expression<Func<States, bool>> expression, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<TaskBoard, bool>>>(), CancellationToken.None)).ReturnsAsync((Expression<Func<TaskBoard, bool>> expression, CancellationToken cancellation) =>
             {
                 return list.AsQueryable().Where(expression).Where(p => p.IsDeleted == false).ToList();
             });
 
-            mockRepo.Setup(r => r.Add(It.IsAny<States>(), CancellationToken.None)).ReturnsAsync((States data, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Add(It.IsAny<TaskBoard>(), CancellationToken.None)).ReturnsAsync((TaskBoard data, CancellationToken cancellation) =>
             {
                 list.Add(data);
                 return data;
             });
 
-            mockRepo.Setup(r => r.Update(It.IsAny<States>(), CancellationToken.None)).Callback((States data, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Update(It.IsAny<TaskBoard>(), CancellationToken.None)).Callback((TaskBoard data, CancellationToken cancellation) =>
             {
                 var old = list.First(p => p.Id == data.Id && p.IsDeleted == false);
                 list.Remove(old);

@@ -2,25 +2,24 @@
 using Moq;
 using RamSoft.Application.Contracts.Base;
 using RamSoft.Application.Exceptions;
-using RamSoft.Application.Features.StatesFeature.Commands.Create;
-using RamSoft.Application.Features.StatesFeature.Commands.Delete;
+using RamSoft.Application.Features.TaskBoardFeature.Commands.Delete;
 using RamSoft.Application.Profiles;
 using RamSoft.UnitTest.Mock;
 
-namespace RamSoft.UnitTest.Feature.StatesFeature.Delete
+namespace RamSoft.UnitTest.Feature.TaskBoardFeature.Delete
 {
-    public class DeleteStatesCommandHandlerTests
+    public class DeleteTaskBoardCommandHandlerTest
     {
 
         private readonly IMapper _mapper;
         private readonly Mock<IUnitOfWork> _mockUow;
-        private readonly DeleteStatesCommand _crudDto;
-        private readonly DeleteStatesCommandHandler _handler;
-        private readonly DeleteStatesValidation _validator;
-        public DeleteStatesCommandHandlerTests()
+        private readonly DeleteTaskBoardCommand _crudDto;
+        private readonly DeleteTaskBoardCommandHandler _handler;
+        private readonly DeleteTaskBoardValidation _validator;
+        public DeleteTaskBoardCommandHandlerTest()
         {
             _mockUow = MockUnitOfWork.GetUnitOfWork();
-            _validator = new DeleteStatesValidation(_mockUow.Object.StatesRepository, default);
+            _validator = new DeleteTaskBoardValidation(_mockUow.Object.TaskBoardRepository, default);
 
             var mapperConfig = new MapperConfiguration(c =>
             {
@@ -28,9 +27,9 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Delete
             });
 
             _mapper = mapperConfig.CreateMapper();
-            _handler = new DeleteStatesCommandHandler(_mockUow.Object);
+            _handler = new DeleteTaskBoardCommandHandler(_mockUow.Object);
 
-            _crudDto = new DeleteStatesCommand()
+            _crudDto = new DeleteTaskBoardCommand()
             {
                 Id = 1,
             };
@@ -39,17 +38,17 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Delete
         [Test]
         public async Task Happy_Scenario()
         {
-            var items = await _mockUow.Object.StatesRepository.GetAll(CancellationToken.None);
+            var items = await _mockUow.Object.TaskBoardRepository.GetAll(CancellationToken.None);
             var oldItemCounts = items.Count;
             var result = await _handler.Handle(_crudDto, CancellationToken.None);
-            items = await _mockUow.Object.StatesRepository.GetAll(CancellationToken.None);
+            items = await _mockUow.Object.TaskBoardRepository.GetAll(CancellationToken.None);
             Assert.That(items.Count == oldItemCounts - 1);
         }
 
         [Test]
         public async Task When_Id_Is_Not_Exist_Throw_Exception()
         {
-            var command = new DeleteStatesCommand()
+            var command = new DeleteTaskBoardCommand()
             {
                 Id = 0,
             };

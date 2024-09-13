@@ -8,6 +8,7 @@ namespace RamSoft.Domain.Jira
         [MaxLength(100)]
         public required string Name { get; set; }
         public ICollection<TaskBoardStates>? TaskBoardStateList { get; set; }
-        public required States DefaultState { get; set; }
+        public int DefaultStatesId { get; set; }
+        public States DefaultStates { get; set; }
     }
 }

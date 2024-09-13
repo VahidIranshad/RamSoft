@@ -1,4 +1,4 @@
-﻿namespace RamSoft.Application.Dtos.Jira.States
+﻿namespace RamSoft.Application.Dtos.Jira.StatesDtos
 {
     public class StatesDto
     {

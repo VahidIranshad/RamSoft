@@ -38,13 +38,16 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Create
         [Test]
         public async Task Happy_Scenario()
         {
-            var result = await _handler.Handle(_crudDto, CancellationToken.None);
+
             var items = await _mockUow.Object.StatesRepository.GetAll(CancellationToken.None);
-            Assert.That(items.Count == 2);
+            int oldItemCount = items.Count;
+            var result = await _handler.Handle(_crudDto, CancellationToken.None);
+            items = await _mockUow.Object.StatesRepository.GetAll(CancellationToken.None);
+            Assert.That(items.Count == oldItemCount + 1);
 
             var item = await _mockUow.Object.StatesRepository.Get(result, CancellationToken.None);
             Assert.That(item.Id == result);
-            Assert.That(item.Name == item.Name);
+            Assert.That(item.Name == _crudDto.Name);
         }
 
         [Test]

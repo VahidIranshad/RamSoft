@@ -8,7 +8,7 @@ namespace RamSoft.Application.Features.StatesFeature.Commands.Create
         {
             RuleFor(p => p.Name)
                 .Must(u => !string.IsNullOrWhiteSpace(u)).WithMessage("{PropertyName} is required.")
-                .MaximumLength(100).WithMessage("{PropertyName} must not exceed 200 characters.");
+                .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
         }
     }
 }
