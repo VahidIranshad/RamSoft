@@ -41,6 +41,10 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Create
             var result = await _handler.Handle(_crudDto, CancellationToken.None);
             var items = await _mockUow.Object.StatesRepository.GetAll(CancellationToken.None);
             Assert.That(items.Count == 2);
+
+            var item = await _mockUow.Object.StatesRepository.Get(result, CancellationToken.None);
+            Assert.That(item.Id == result);
+            Assert.That(item.Name == item.Name);
         }
 
         [Test]

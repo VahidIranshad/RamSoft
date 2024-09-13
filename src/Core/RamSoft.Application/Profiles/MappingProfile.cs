@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RamSoft.Application.Dtos.Jira.States;
 using RamSoft.Application.Features.StatesFeature.Commands.Create;
 using RamSoft.Application.Features.StatesFeature.Commands.Update;
 using RamSoft.Domain.Jira;
@@ -11,6 +12,7 @@ namespace RamSoft.Application.Profiles
         {
             CreateMap<CreateStatesCommand, States>().ReverseMap();
             CreateMap<UpdateStatesCommand, States>().ReverseMap();
+            CreateMap<StatesDto, States>().ReverseMap();
         }
     }
 }

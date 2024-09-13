@@ -31,7 +31,7 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Update
             _crudDto = new UpdateStatesCommand()
             {
                 Id = 1,
-                Name = "name",
+                Name = "name_AfterUpdates",
             };
         }
 

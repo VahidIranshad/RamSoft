@@ -15,10 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\RamSoft.Domain\RamSoft.Domain.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\StatesFeature\Queries\" />
-  </ItemGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>RamSoft.UnitTest</_Parameter1>
