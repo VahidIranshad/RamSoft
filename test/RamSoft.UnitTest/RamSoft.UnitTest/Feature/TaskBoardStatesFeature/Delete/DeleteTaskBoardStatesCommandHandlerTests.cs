@@ -13,13 +13,10 @@ namespace RamSoft.UnitTest.Feature.TaskBoardStatesFeature.Delete
 
         private readonly IMapper _mapper;
         private readonly Mock<IUnitOfWork> _mockUow;
-        private readonly DeleteTaskBoardStatesCommand _crudDto;
         private readonly DeleteTaskBoardStatesCommandHandler _handler;
-        private readonly DeleteTaskBoardStatesValidation _validator;
         public DeleteTaskBoardStatesCommandHandlerTests()
         {
             _mockUow = MockUnitOfWork.GetUnitOfWork();
-            _validator = new DeleteTaskBoardStatesValidation(_mockUow.Object, default);
 
             var mapperConfig = new MapperConfiguration(c =>
             {
@@ -29,15 +26,16 @@ namespace RamSoft.UnitTest.Feature.TaskBoardStatesFeature.Delete
             _mapper = mapperConfig.CreateMapper();
             _handler = new DeleteTaskBoardStatesCommandHandler(_mockUow.Object);
 
-            _crudDto = new DeleteTaskBoardStatesCommand()
-            {
-                Id = 2,
-            };
         }
 
         [Test]
         public async Task Happy_Scenario()
         {
+
+            var _crudDto = new DeleteTaskBoardStatesCommand()
+            {
+                Id = 3,
+            };
             var items = await _mockUow.Object.TaskBoardStatesRepository.GetAll(CancellationToken.None);
             var oldItemCounts = items.Count;
             var result = await _handler.Handle(_crudDto, CancellationToken.None);

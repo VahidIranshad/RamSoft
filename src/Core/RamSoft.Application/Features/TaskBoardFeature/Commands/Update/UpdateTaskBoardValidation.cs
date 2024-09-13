@@ -23,7 +23,7 @@ namespace RamSoft.Application.Features.TaskBoardFeature.Commands.Update
 
             RuleFor(p => p.Name)
                 .Must(u => !string.IsNullOrWhiteSpace(u)).WithMessage("{PropertyName} is required.")
-                .MaximumLength(100).WithMessage("{PropertyName} must not exceed 200 characters.");
+                .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
         }
         private async Task<bool> Exists(int id, CancellationToken cancellationToken)
         {

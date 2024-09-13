@@ -51,7 +51,7 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Create
         }
 
         [Test]
-        public async Task When_Name_Is_Not_Valid_Get_CustomValidationException()
+        public async Task When_Name_Is_Not_Valid_Throw_CustomValidationException()
         {
             var command = new CreateStatesCommand()
             {

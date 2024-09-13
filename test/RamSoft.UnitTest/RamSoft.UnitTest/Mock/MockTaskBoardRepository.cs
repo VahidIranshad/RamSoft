@@ -24,7 +24,7 @@ namespace RamSoft.UnitTest.Mock
 
             mockRepo.Setup(r => r.Get(It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int id, CancellationToken cancellation) =>
             {
-                return list.Where(p => p.Id == id && p.IsDeleted == false).First();
+                return list.Where(p => p.Id == id && p.IsDeleted == false).FirstOrDefault();
             });
 
             mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<TaskBoard, bool>>>(), CancellationToken.None)).ReturnsAsync((Expression<Func<TaskBoard, bool>> expression, CancellationToken cancellation) =>

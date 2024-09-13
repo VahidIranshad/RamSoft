@@ -60,7 +60,7 @@ namespace RamSoft.UnitTest.Feature.TaskBoardFeature.Create
             Assert.That(taskBoardStateList.Any());
         }
         [Test]
-        public async Task When_Name_Is_Not_Valid_Get_CustomValidationException()
+        public async Task When_Name_Is_Not_Valid_Throw_CustomValidationException()
         {
             var command = new CreateTaskBoardCommand()
             {
@@ -72,7 +72,7 @@ namespace RamSoft.UnitTest.Feature.TaskBoardFeature.Create
         }
 
         [Test]
-        public async Task When_DefaultStateId_Is_Not_Valid_Get_CustomValidationException()
+        public async Task When_DefaultStateId_Is_Not_Valid_Throw_CustomValidationException()
         {
             var command = new CreateTaskBoardCommand()
             {

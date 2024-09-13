@@ -45,7 +45,7 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Update
         }
 
         [Test]
-        public async Task When_Name_Is_Not_Valid_Get_CustomValidationException()
+        public async Task When_Name_Is_Not_Valid_Throw_CustomValidationException()
         {
             var command = new UpdateStatesCommand()
             {
@@ -57,7 +57,7 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Update
         }
 
         [Test]
-        public async Task When_Id_Is_Not_Valid_Get_CustomValidationException()
+        public async Task When_Id_Is_Not_Valid_Throw_CustomValidationException()
         {
             var command = new UpdateStatesCommand()
             {

@@ -1,22 +1,26 @@
 ﻿using Moq;
 using RamSoft.Application.Contracts.Jira;
 using RamSoft.Domain.Jira;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace RamSoft.UnitTest.Mock
 {
-    public class MockTaskBoardStatesRepository
+    internal class MockTasksRepository
     {
-        public static Mock<ITaskBoardStatesRepository> GetRepository()
+
+        public static Mock<ITasksRepository> GetRepository()
         {
-            var list = new List<TaskBoardStates>()
+            var list = new List<Tasks>()
             {
-                new TaskBoardStates{Id = 1, TaskBoardId = 1, StatesId = 1 },
-                new TaskBoardStates{Id = 2, TaskBoardId = 1, StatesId = 2 },
-                new TaskBoardStates{Id = 3, TaskBoardId = 1, StatesId = 3 }
+                new Tasks{Id = 1, Name = "new task", Description = "Description", TaskBoardId = 1, StatesId = 2, Deadline = DateTime.Now }
             };
 
-            var mockRepo = new Mock<ITaskBoardStatesRepository>();
+            var mockRepo = new Mock<ITasksRepository>();
 
             mockRepo.Setup(r => r.GetAll(CancellationToken.None)).ReturnsAsync((CancellationToken cancellation) =>
                 list.Where(p => p.IsDeleted == false).ToList()
@@ -28,7 +32,7 @@ namespace RamSoft.UnitTest.Mock
                 return list.Where(p => p.Id == id && p.IsDeleted == false).FirstOrDefault();
             });
 
-            mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<TaskBoardStates, bool>>>(), CancellationToken.None)).ReturnsAsync((Expression<Func<TaskBoardStates, bool>> expression, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<Tasks, bool>>>(), CancellationToken.None)).ReturnsAsync((Expression<Func<Tasks, bool>> expression, CancellationToken cancellation) =>
             {
                 return list.AsQueryable().Where(expression).Where(p => p.IsDeleted == false).ToList();
             });
@@ -38,14 +42,13 @@ namespace RamSoft.UnitTest.Mock
                 return list.Where(p => p.TaskBoardId == taskBoardId && p.IsDeleted == false).ToList();
             });
 
-
-            mockRepo.Setup(r => r.Add(It.IsAny<TaskBoardStates>(), CancellationToken.None)).ReturnsAsync((TaskBoardStates data, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Add(It.IsAny<Tasks>(), CancellationToken.None)).ReturnsAsync((Tasks data, CancellationToken cancellation) =>
             {
                 list.Add(data);
                 return data;
             });
 
-            mockRepo.Setup(r => r.Update(It.IsAny<TaskBoardStates>(), CancellationToken.None)).Callback((TaskBoardStates data, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Update(It.IsAny<Tasks>(), CancellationToken.None)).Callback((Tasks data, CancellationToken cancellation) =>
             {
                 var old = list.First(p => p.Id == data.Id && p.IsDeleted == false);
                 list.Remove(old);
@@ -62,7 +65,6 @@ namespace RamSoft.UnitTest.Mock
             {
                 return list.Any(p => p.Id == id && p.IsDeleted == false);
             });
-
             mockRepo.Setup(r => r.Exists(It.IsAny<int>(), It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int taskBoardId, int statesId, CancellationToken cancellation) =>
             {
                 return list.Any(p => p.TaskBoardId == taskBoardId && p.StatesId == statesId && p.IsDeleted == false);

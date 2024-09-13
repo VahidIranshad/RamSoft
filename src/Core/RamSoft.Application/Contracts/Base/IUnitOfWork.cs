@@ -8,6 +8,7 @@ namespace RamSoft.Application.Contracts.Base
         IStatesRepository StatesRepository { get; }
         ITaskBoardRepository TaskBoardRepository { get; }
         ITaskBoardStatesRepository TaskBoardStatesRepository { get; }
+        ITasksRepository TasksRepository { get; }
 
         Task<int> Commit(CancellationToken cancellationToken);
 

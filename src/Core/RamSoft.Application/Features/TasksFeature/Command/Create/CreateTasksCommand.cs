@@ -1,17 +1,13 @@
-﻿using RamSoft.Domain.Base;
-using System.ComponentModel.DataAnnotations;
+﻿using RamSoft.Application.Features.Base;
 
-namespace RamSoft.Domain.Jira
+namespace RamSoft.Application.Features.TasksFeature.Command.Create
 {
-    public class Tasks : BaseEntity
+    public record CreateTasksCommand : ICommand<int>
     {
-        [MaxLength(400)]
         public required string Name { get; set; }
         public required string Description { get; set; }
         public DateTime Deadline { get; set; }
         public int TaskBoardId { get; set; }
-        public TaskBoard TaskBoard { get; set; }
         public int StatesId { get; set; }
-        public States States { get; set; }
     }
 }

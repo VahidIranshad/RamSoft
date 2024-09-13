@@ -13,7 +13,8 @@ namespace RamSoft.UnitTest.Mock
             {
                 new States{Id = 1, Name = "ToDo"},
                 new States{Id = 2, Name = "InProgress"},
-                new States{Id = 3, Name = "Done"},
+                new States{Id = 3, Name = "Review"},
+                new States{Id = 4, Name = "Done"},
             };
 
             var mockRepo = new Mock<IStatesRepository>();
@@ -24,7 +25,7 @@ namespace RamSoft.UnitTest.Mock
 
             mockRepo.Setup(r => r.Get(It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int id, CancellationToken cancellation) =>
             {
-                return list.Where(p => p.Id == id && p.IsDeleted == false).First();
+                return list.Where(p => p.Id == id && p.IsDeleted == false).FirstOrDefault();
             });
 
             mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<States, bool>>>(), CancellationToken.None)).ReturnsAsync((Expression<Func<States, bool>> expression, CancellationToken cancellation) =>
