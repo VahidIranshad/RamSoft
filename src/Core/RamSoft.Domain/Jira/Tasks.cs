@@ -10,6 +10,7 @@ namespace RamSoft.Domain.Jira
         public required string Description { get; set; }
         public DateTime Deadline { get; set; }
         public int TaskBoardId { get; set; }
+        
         public TaskBoard TaskBoard { get; set; }
         public int StatesId { get; set; }
         public States States { get; set; }

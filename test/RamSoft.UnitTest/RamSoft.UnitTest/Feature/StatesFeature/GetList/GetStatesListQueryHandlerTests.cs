@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Moq;
+using NUnit.Framework.Legacy;
 using RamSoft.Application.Contracts.Base;
 using RamSoft.Application.Dtos.Jira.StatesDtos;
 using RamSoft.Application.Features.StatesFeature.Queries.GetLists;

@@ -8,6 +8,7 @@ namespace RamSoft.Domain.Jira
         public TaskBoard TaskBoard { get; set; }
         public int StatesId { get; set; }
         public States States { get; set; }
+        public int OrderShow { get; set; } = 1;
 
     }
 }

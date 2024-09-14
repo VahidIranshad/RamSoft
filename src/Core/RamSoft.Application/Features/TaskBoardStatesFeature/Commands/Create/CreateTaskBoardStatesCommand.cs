@@ -6,5 +6,6 @@ namespace RamSoft.Application.Features.TaskBoardStatesFeature.Commands.Create
     {
         public int TaskBoardId { get; set; }
         public int StatesId { get; set; }
+        public int OrderShow { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Create
         {
             var data = new CreateStatesCommand() { Name = new Faker().Random.String2(100) };
             var validationResult = await _validator.ValidateAsync(data);
-            Assert.IsTrue(validationResult.IsValid);
+            Assert.That(validationResult.IsValid);
         }
 
         [TestCase(null)]
@@ -26,7 +26,7 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Create
         {
             var data = new CreateStatesCommand() { Name = name };
             var validationResult = await _validator.ValidateAsync(data);
-            Assert.IsFalse(validationResult.IsValid);
+            Assert.That(!validationResult.IsValid);
             Assert.That(1 == validationResult.Errors.Count);
         }
 
@@ -35,7 +35,7 @@ namespace RamSoft.UnitTest.Feature.StatesFeature.Create
         {
             var data = new CreateStatesCommand() { Name = new Faker().Random.String2(101) };
             var validationResult = await _validator.ValidateAsync(data);
-            Assert.IsFalse(validationResult.IsValid);
+            Assert.That(!validationResult.IsValid);
             Assert.That(1 == validationResult.Errors.Count);
         }
     }

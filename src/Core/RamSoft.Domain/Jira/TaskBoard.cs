@@ -10,5 +10,8 @@ namespace RamSoft.Domain.Jira
         public ICollection<TaskBoardStates>? TaskBoardStateList { get; set; }
         public int DefaultStatesId { get; set; }
         public States DefaultStates { get; set; }
+
+
+        public ICollection<Tasks> Tasks { get; set; }
     }
 }
