@@ -25,9 +25,10 @@ namespace RamSoft.Infrastructure.Configurations.Jira
 
             builder.Property(x => x.RowVersion).HasColumnType("RowVersion").IsRowVersion();
 
-            /*base my exprience I inclueded author automatically*/
             builder.Navigation(e => e.States).AutoInclude();
             builder.Navigation(e => e.TaskBoard).AutoInclude();
+
+            builder.HasIndex(p => new { p.TaskBoardId, p.StatesId }).IsUnique(true);
 
         }
     }

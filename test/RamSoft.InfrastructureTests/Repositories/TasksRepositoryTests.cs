@@ -3,15 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework.Internal;
 using RamSoft.Application.Contracts.Base;
 using RamSoft.Domain.Jira;
-using RamSoft.Infrastructure.Repositories.Base;
 using RamSoft.Infrastructure.Repositories.Jira;
 using System.Linq.Expressions;
-using System.Threading;
 
 namespace RamSoft.InfrastructureTests.Repositories
 {
     [TestFixture]
-    public class GenericRepositoryTests
+    public class TasksRepositoryTests
     {
         private SharedDatabaseFixture Fixture { get; set; }
         private IMapper _mapper;
@@ -29,10 +27,10 @@ namespace RamSoft.InfrastructureTests.Repositories
         {
             using (var context = Fixture.CreateSQLContext())
             {
-                var repository = new StatesRepository(context);
+                var repository = new TasksRepository(context);
 
                 var list = await repository.GetAll(CancellationToken.None);
-                var dbList = await context.StatesDbSet.ToListAsync(CancellationToken.None);
+                var dbList = await context.TasksDbSet.ToListAsync(CancellationToken.None);
 
                 CollectionAssert.AreEqual(list, dbList);
             }
@@ -45,10 +43,10 @@ namespace RamSoft.InfrastructureTests.Repositories
         {
             using (var context = Fixture.CreateSQLContext())
             {
-                var repository = new StatesRepository(context);
+                var repository = new TasksRepository(context);
 
                 var item = await repository.Get(id, CancellationToken.None);
-                var dbItem = await context.StatesDbSet.AsNoTracking().Where(p => p.Id == id).FirstOrDefaultAsync(CancellationToken.None);
+                var dbItem = await context.TasksDbSet.AsNoTracking().Where(p => p.Id == id).FirstOrDefaultAsync(CancellationToken.None);
 
                 Assert.That(item, Is.EqualTo(dbItem));
             }
@@ -59,12 +57,12 @@ namespace RamSoft.InfrastructureTests.Repositories
         {
             using (var context = Fixture.CreateSQLContext())
             {
-                var repository = new StatesRepository(context);
+                var repository = new TasksRepository(context);
 
-                Expression<Func<States, bool>> expression = (p => p.Id > 0);
+                Expression<Func<Tasks, bool>> expression = (p => p.Id > 0);
 
                 var list = await repository.Get(expression, CancellationToken.None);
-                var dbList = await context.StatesDbSet.Where(expression).ToListAsync(CancellationToken.None);
+                var dbList = await context.TasksDbSet.Where(expression).ToListAsync(CancellationToken.None);
 
                 CollectionAssert.AreEqual(list, dbList);
             }
@@ -75,12 +73,12 @@ namespace RamSoft.InfrastructureTests.Repositories
         {
             using (var context = Fixture.CreateSQLContext())
             {
-                var repository = new StatesRepository(context);
+                var repository = new TasksRepository(context);
 
                 var ids = new List<int>() { 1, 2, 3, 5 };
 
                 var list = await repository.Get(ids, CancellationToken.None);
-                var dbList = await context.StatesDbSet.Where(p => ids.Contains(p.Id)).ToListAsync(CancellationToken.None);
+                var dbList = await context.TasksDbSet.Where(p => ids.Contains(p.Id)).ToListAsync(CancellationToken.None);
 
                 CollectionAssert.AreEqual(list, dbList);
             }
@@ -93,10 +91,10 @@ namespace RamSoft.InfrastructureTests.Repositories
         {
             using (var context = Fixture.CreateSQLContext())
             {
-                var repository = new StatesRepository(context);
+                var repository = new TasksRepository(context);
 
                 var item = await repository.Exists(id, CancellationToken.None);
-                var dbItem = await context.StatesDbSet.AsNoTracking().Where(p => p.Id == id).AnyAsync(CancellationToken.None);
+                var dbItem = await context.TasksDbSet.AsNoTracking().Where(p => p.Id == id).AnyAsync(CancellationToken.None);
 
                 Assert.That(item, Is.EqualTo(dbItem));
             }
@@ -107,12 +105,12 @@ namespace RamSoft.InfrastructureTests.Repositories
         {
             using (var context = Fixture.CreateSQLContext())
             {
-                var repository = new StatesRepository(context);
+                var repository = new TasksRepository(context);
 
-                var newItem = new States() { Name = "test" };
+                var newItem = new Tasks() { Name = "test" , Description = "des test", StatesId = 1, TaskBoardId = 1};
 
                 var item = await repository.Add(newItem, CancellationToken.None);
-                var dbItem = await context.StatesDbSet.Where(p => p.Id == item.Id).FirstOrDefaultAsync(CancellationToken.None);
+                var dbItem = await context.TasksDbSet.Where(p => p.Id == item.Id).FirstOrDefaultAsync(CancellationToken.None);
 
                 Assert.That(item, Is.EqualTo(dbItem));
             }
@@ -122,12 +120,12 @@ namespace RamSoft.InfrastructureTests.Repositories
         {
             using (var context = Fixture.CreateSQLContext())
             {
-                var repository = new StatesRepository(context);
+                var repository = new TasksRepository(context);
 
-                var updateItem = new States() { Id = 1, Name = "test" };
+                var updateItem = new Tasks() { Id = 1, Name = "test update", Description = "test for des", StatesId = 1, TaskBoardId = 1 };
 
                 await repository.Update(updateItem, CancellationToken.None);
-                var dbItem = await context.StatesDbSet.Where(p => p.Id == updateItem.Id).FirstOrDefaultAsync(CancellationToken.None);
+                var dbItem = await context.TasksDbSet.Where(p => p.Id == updateItem.Id).FirstOrDefaultAsync(CancellationToken.None);
 
                 Assert.That(updateItem, Is.EqualTo(dbItem));
             }
@@ -137,10 +135,10 @@ namespace RamSoft.InfrastructureTests.Repositories
         {
             using (var context = Fixture.CreateSQLContext())
             {
-                var repository = new StatesRepository(context);
+                var repository = new TasksRepository(context);
 
                 await repository.Delete(1, CancellationToken.None);
-                var dbItem = await context.StatesDbSet.Where(p => p.Id == 1).FirstOrDefaultAsync(CancellationToken.None);
+                var dbItem = await context.TasksDbSet.Where(p => p.Id == 1).FirstOrDefaultAsync(CancellationToken.None);
 
                 Assert.That(dbItem, Is.EqualTo(null));
             }
