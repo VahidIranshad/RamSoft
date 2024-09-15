@@ -59,6 +59,9 @@ namespace RamSoft.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<byte[]>("RowVersion")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id")
                         .HasName("PK_EntityLogDbSet");
 
@@ -95,10 +98,10 @@ namespace RamSoft.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar");
 
-                    b.Property<byte[]>("Version")
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("RowVersion");
 
                     b.HasKey("Id")
                         .HasName("PK_Jira_States");
@@ -181,10 +184,10 @@ namespace RamSoft.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar");
 
-                    b.Property<byte[]>("Version")
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("RowVersion");
 
                     b.HasKey("Id")
                         .HasName("PK_Jira_TaskBoard");
@@ -222,19 +225,16 @@ namespace RamSoft.Infrastructure.Migrations
                     b.Property<int>("OrderShow")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("RowVersion");
+
                     b.Property<int>("StatesId")
                         .HasColumnType("int");
 
                     b.Property<int>("TaskBoardId")
                         .HasColumnType("int");
-
-                    b.Property<int?>("TaskBoardId1")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
 
                     b.HasKey("Id")
                         .HasName("PK_Jira_TaskBoardStates");
@@ -242,8 +242,6 @@ namespace RamSoft.Infrastructure.Migrations
                     b.HasIndex("StatesId");
 
                     b.HasIndex("TaskBoardId");
-
-                    b.HasIndex("TaskBoardId1");
 
                     b.ToTable("TaskBoardStates", "Jira");
                 });
@@ -268,6 +266,7 @@ namespace RamSoft.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(2000)
                         .HasColumnType("nvarchar");
 
                     b.Property<bool>("IsDeleted")
@@ -285,16 +284,16 @@ namespace RamSoft.Infrastructure.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("RowVersion");
+
                     b.Property<int>("StatesId")
                         .HasColumnType("int");
 
                     b.Property<int>("TaskBoardId")
                         .HasColumnType("int");
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
 
                     b.HasKey("Id")
                         .HasName("PK_Jira_Tasks");
@@ -326,14 +325,10 @@ namespace RamSoft.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("RamSoft.Domain.Jira.TaskBoard", "TaskBoard")
-                        .WithMany()
+                        .WithMany("TaskBoardStateList")
                         .HasForeignKey("TaskBoardId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("RamSoft.Domain.Jira.TaskBoard", null)
-                        .WithMany("TaskBoardStateList")
-                        .HasForeignKey("TaskBoardId1");
 
                     b.Navigation("States");
 

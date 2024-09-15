@@ -5,7 +5,7 @@ namespace RamSoft.Application.Contracts.Jira
 {
     public interface ITaskBoardStatesRepository : IGenericRepository<TaskBoardStates>
     {
-        Task<IReadOnlyList<TaskBoardStates>> GetListByTaskBoardId(int taskBoardId, CancellationToken cancellationToken);
+        Task<IReadOnlyList<TaskBoardStates>> GetListByTaskBoardId(int taskBoardId, CancellationToken cancellationToken, bool disablaTracking = true);
         Task<bool> Exists(int taskBoardStatesId, int statesId , CancellationToken cancellationToken);
     }
 }

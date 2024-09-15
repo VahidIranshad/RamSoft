@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RamSoft.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Createtable : Migration
+    public partial class Firstmigraton : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,7 +29,8 @@ namespace RamSoft.Infrastructure.Migrations
                     CreatorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     LastEditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastEditorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,12 +45,12 @@ namespace RamSoft.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     LastEditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastEditorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "RowVersion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,12 +66,12 @@ namespace RamSoft.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DefaultStatesId = table.Column<int>(type: "int", nullable: false),
-                    Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     LastEditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastEditorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "RowVersion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,13 +94,12 @@ namespace RamSoft.Infrastructure.Migrations
                     TaskBoardId = table.Column<int>(type: "int", nullable: false),
                     StatesId = table.Column<int>(type: "int", nullable: false),
                     OrderShow = table.Column<int>(type: "int", nullable: false),
-                    TaskBoardId1 = table.Column<int>(type: "int", nullable: true),
-                    Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     LastEditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastEditorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "RowVersion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -116,12 +116,6 @@ namespace RamSoft.Infrastructure.Migrations
                         principalSchema: "Jira",
                         principalTable: "TaskBoard",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TaskBoardStates_TaskBoard_TaskBoardId1",
-                        column: x => x.TaskBoardId1,
-                        principalSchema: "Jira",
-                        principalTable: "TaskBoard",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -132,16 +126,16 @@ namespace RamSoft.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TaskBoardId = table.Column<int>(type: "int", nullable: false),
                     StatesId = table.Column<int>(type: "int", nullable: false),
-                    Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     LastEditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastEditorID = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "RowVersion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -189,12 +183,6 @@ namespace RamSoft.Infrastructure.Migrations
                 schema: "Jira",
                 table: "TaskBoardStates",
                 column: "TaskBoardId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskBoardStates_TaskBoardId1",
-                schema: "Jira",
-                table: "TaskBoardStates",
-                column: "TaskBoardId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_StatesId",

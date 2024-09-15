@@ -32,10 +32,11 @@ namespace RamSoft.Application.Features.TaskBoardFeature.Commands.Create
             else
             {
                 var data = _mapper.Map<TaskBoard>(request);
+                data.TaskBoardStateList.Add(new TaskBoardStates() { StatesId = request.DefaultStatesId } );
 
                 var result = await _unitOfWork.TaskBoardRepository.Add(data, cancellationToken);
-                var taskBoardEntity = new TaskBoardStates() { TaskBoardId = result.Id, StatesId = request.DefaultStatesId };
-                await _unitOfWork.TaskBoardStatesRepository.Add(taskBoardEntity, cancellationToken);
+                //var taskBoardEntity = new TaskBoardStates() { TaskBoardId = result.Id, StatesId = request.DefaultStatesId };
+                //await _unitOfWork.TaskBoardStatesRepository.Add(taskBoardEntity, cancellationToken);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 

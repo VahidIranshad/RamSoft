@@ -6,6 +6,7 @@ using RamSoft.Domain.Jira;
 using RamSoft.Infrastructure.Repositories.Base;
 using RamSoft.Infrastructure.Repositories.Jira;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace RamSoft.InfrastructureTests.Repositories
 {
@@ -47,7 +48,7 @@ namespace RamSoft.InfrastructureTests.Repositories
                 var repository = new StatesRepository(context);
 
                 var item = await repository.Get(id, CancellationToken.None);
-                var dbItem = await context.StatesDbSet.Where(p => p.Id == id).FirstOrDefaultAsync(CancellationToken.None);
+                var dbItem = await context.StatesDbSet.AsNoTracking().Where(p => p.Id == id).FirstOrDefaultAsync(CancellationToken.None);
 
                 Assert.That(item, Is.EqualTo(dbItem));
             }
@@ -95,7 +96,7 @@ namespace RamSoft.InfrastructureTests.Repositories
                 var repository = new StatesRepository(context);
 
                 var item = await repository.Exists(id, CancellationToken.None);
-                var dbItem = await context.StatesDbSet.Where(p => p.Id == id).AnyAsync(CancellationToken.None);
+                var dbItem = await context.StatesDbSet.AsNoTracking().Where(p => p.Id == id).AnyAsync(CancellationToken.None);
 
                 Assert.That(item, Is.EqualTo(dbItem));
             }

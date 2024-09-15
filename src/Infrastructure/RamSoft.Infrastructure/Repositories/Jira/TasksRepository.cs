@@ -18,9 +18,14 @@ namespace RamSoft.Infrastructure.Repositories.Jira
             return await _dbContext.TasksDbSet.Where(p => p.StatesId == statesId && p.TaskBoardId == taskBoardId).AnyAsync(cancellationToken);
         }
 
-        public async Task<IReadOnlyList<Tasks>> GetListByTaskBoardId(int taskBoardId, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<Tasks>> GetListByTaskBoardId(int taskBoardId, CancellationToken cancellationToken, bool disablaTracking = true)
         {
+            if (disablaTracking)
+            {
+                return await _dbContext.TasksDbSet.AsNoTracking().Where(p => p.TaskBoardId == taskBoardId).ToListAsync(cancellationToken);
+            }
             return await _dbContext.TasksDbSet.Where(p => p.TaskBoardId == taskBoardId).ToListAsync(cancellationToken);
+           
         }
     }
 }

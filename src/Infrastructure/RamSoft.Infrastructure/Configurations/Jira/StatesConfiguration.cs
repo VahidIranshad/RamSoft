@@ -12,7 +12,7 @@ namespace RamSoft.Infrastructure.Configurations.Jira
             builder.HasKey(p => p.Id).HasName("PK_Jira_States");
             builder.Property(p => p.Id).UseIdentityColumn();
             builder.Property(p => p.Name).IsRequired().HasColumnType("nvarchar").HasMaxLength(100);
-            builder.Property<byte[]>("Version").IsRowVersion();
+            builder.Property(x => x.RowVersion).HasColumnType("RowVersion").IsRowVersion();
             builder.HasData(
                 new States
                 {

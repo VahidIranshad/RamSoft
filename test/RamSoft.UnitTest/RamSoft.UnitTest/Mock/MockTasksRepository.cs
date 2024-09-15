@@ -17,22 +17,22 @@ namespace RamSoft.UnitTest.Mock
 
             var mockRepo = new Mock<ITasksRepository>();
 
-            mockRepo.Setup(r => r.GetAll(CancellationToken.None)).ReturnsAsync((CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.GetAll(CancellationToken.None, true)).ReturnsAsync((CancellationToken cancellation, bool disablaTracking) =>
                 list.Where(p => p.IsDeleted == false).ToList()
                 );
 
 
-            mockRepo.Setup(r => r.Get(It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int id, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Get(It.IsAny<int>(), CancellationToken.None, true)).ReturnsAsync((int id, CancellationToken cancellation, bool disablaTracking) =>
             {
                 return list.Where(p => p.Id == id && p.IsDeleted == false).FirstOrDefault();
             });
 
-            mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<Tasks, bool>>>(), CancellationToken.None)).ReturnsAsync((Expression<Func<Tasks, bool>> expression, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<Tasks, bool>>>(), CancellationToken.None, true)).ReturnsAsync((Expression<Func<Tasks, bool>> expression, CancellationToken cancellation, bool disablaTracking) =>
             {
                 return list.AsQueryable().Where(expression).Where(p => p.IsDeleted == false).ToList();
             });
 
-            mockRepo.Setup(r => r.GetListByTaskBoardId(It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int taskBoardId, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.GetListByTaskBoardId(It.IsAny<int>(), CancellationToken.None, true)).ReturnsAsync((int taskBoardId, CancellationToken cancellation, bool disablaTracking) =>
             {
                 return list.Where(p => p.TaskBoardId == taskBoardId && p.IsDeleted == false).ToList();
             });

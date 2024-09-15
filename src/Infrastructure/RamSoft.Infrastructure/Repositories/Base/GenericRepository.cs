@@ -18,28 +18,54 @@ namespace RamSoft.Infrastructure.Repositories.Base
         }
 
 
-        public async Task<IReadOnlyList<T>> GetAll(CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<T>> GetAll(CancellationToken cancellationToken, bool disableTracking = true)
         {
+            if (disableTracking)
+            {
+                return await _dbContext.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
+            }
             return await _dbContext.Set<T>().ToListAsync(cancellationToken);
         }
-        public async Task<T> Get(int id, CancellationToken cancellationToken)
+        public async Task<T> Get(int id, CancellationToken cancellationToken, bool disableTracking = true)
         {
+            if (disableTracking)
+            {
+                var result = await _dbContext.Set<T>().AsNoTracking().Where(p => p.Id == id).FirstOrDefaultAsync(cancellationToken);
+                return result;
+            }
             var data = await _dbContext.Set<T>().Where(p => p.Id == id).FirstOrDefaultAsync(cancellationToken);
             return data;
         }
-        public async Task<IReadOnlyList<T>> Get(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<T>> Get(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, bool disableTracking = true)
         {
+            if (disableTracking)
+            {
+                return await _dbContext.Set<T>().AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+            }
             return await _dbContext.Set<T>().Where(predicate).ToListAsync(cancellationToken);
         }
 
-        public async Task<List<T>> Get(List<int> ids, CancellationToken cancellationToken)
+        public async Task<List<T>> Get(List<int> ids, CancellationToken cancellationToken, bool disableTracking = true)
         {
-            var data = await _dbContext.Set<T>().Where(p => ids.Contains(p.Id)).ToListAsync(cancellationToken);
-            if (data != null)
+            if (disableTracking)
             {
-                return data;
+                var data = await _dbContext.Set<T>().AsNoTracking().Where(p => ids.Contains(p.Id)).ToListAsync(cancellationToken);
+                if (data != null)
+                {
+                    return data;
+                }
+                throw new NotFoundException(nameof(T), ids);
             }
-            throw new NotFoundException(nameof(T), ids);
+            else
+            {
+                var data = await _dbContext.Set<T>().Where(p => ids.Contains(p.Id)).ToListAsync(cancellationToken);
+                if (data != null)
+                {
+                    return data;
+                }
+                throw new NotFoundException(nameof(T), ids);
+            }
+
         }
 
         public async Task<(IList<T>, int)> Get(string Filter, string Order, int? PageNumber, int? PageSize, CancellationToken cancellationToken, bool? disableTracking = true)
@@ -57,14 +83,14 @@ namespace RamSoft.Infrastructure.Repositories.Base
 
         public async Task<T> Add(T entity, CancellationToken cancellationToken)
         {
-            await _dbContext.AddAsync(entity, cancellationToken);
-            return entity;
+            var result = await _dbContext.AddAsync(entity, cancellationToken);
+            return result.Entity;
         }
 
 
         public async Task<bool> Exists(int id, CancellationToken cancellationToken)
         {
-            var entity = await Get(id, cancellationToken);
+            var entity = await _dbContext.Set<T>().Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync(cancellationToken);
             return entity != null;
         }
 
@@ -75,8 +101,9 @@ namespace RamSoft.Infrastructure.Repositories.Base
             {
                 entity.CreateDate = data.CreateDate;
                 entity.CreatorID = data.CreatorID;
+                entity.RowVersion = data.RowVersion;
                 _dbContext.Entry(entity).State = EntityState.Modified;
-
+                //_dbContext.Update(entity);
             }
             else
             {

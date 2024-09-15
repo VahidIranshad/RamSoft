@@ -11,7 +11,7 @@ namespace RamSoft.Infrastructure.Configurations.Jira
             builder.ToTable("Tasks", "Jira");
             builder.HasKey(p => p.Id).HasName("PK_Jira_Tasks");
             builder.Property(p => p.Name).IsRequired().HasColumnType("nvarchar").HasMaxLength(400);
-            builder.Property(p => p.Description).IsRequired().HasColumnType("nvarchar");
+            builder.Property(p => p.Description).IsRequired().HasColumnType("nvarchar").HasMaxLength(2000);
             builder.Property(p => p.Deadline).IsRequired();
             builder.Property(p => p.Id).UseIdentityColumn();
 
@@ -27,7 +27,7 @@ namespace RamSoft.Infrastructure.Configurations.Jira
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
-            builder.Property<byte[]>("Version").IsRowVersion();
+            builder.Property(x => x.RowVersion).HasColumnType("RowVersion").IsRowVersion();
 
             /*base my exprience I inclueded author automatically*/
             builder.Navigation(e => e.States).AutoInclude();

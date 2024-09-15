@@ -18,7 +18,7 @@ namespace RamSoft.Infrastructure.Configurations.Jira
                 .HasForeignKey(d => d.DefaultStatesId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Property<byte[]>("Version").IsRowVersion();
+            builder.Property(x => x.RowVersion).HasColumnType("RowVersion").IsRowVersion();
 
             /*base my exprience I inclueded author automatically*/
             builder.Navigation(e => e.DefaultStates).AutoInclude();

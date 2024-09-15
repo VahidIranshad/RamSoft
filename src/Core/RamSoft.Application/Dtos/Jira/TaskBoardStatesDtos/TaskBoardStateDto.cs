@@ -2,6 +2,7 @@
 {
     public class TaskBoardStateDto
     {
+        public int Id { get; set; }
         public int TaskBoardId { get; set; }
         public int StatesId { get; set; }
         public string StatesName { get; set; }

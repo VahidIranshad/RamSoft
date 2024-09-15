@@ -8,7 +8,7 @@ namespace RamSoft.UnitTest.Mock
     public class MockTaskBoardRepository
     {
 
-        public static Mock<ITaskBoardRepository> GetRepository()
+        public static Mock<ITaskBoardRepository> GetRepository(ITaskBoardStatesRepository _TaskBoardStatesRepository)
         {
             var list = new List<TaskBoard>()
             {
@@ -17,17 +17,17 @@ namespace RamSoft.UnitTest.Mock
 
             var mockRepo = new Mock<ITaskBoardRepository>();
 
-            mockRepo.Setup(r => r.GetAll(CancellationToken.None)).ReturnsAsync((CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.GetAll(CancellationToken.None, true)).ReturnsAsync((CancellationToken cancellation, bool disablaTracking) =>
                 list.Where(p => p.IsDeleted == false).ToList()
                 );
 
 
-            mockRepo.Setup(r => r.Get(It.IsAny<int>(), CancellationToken.None)).ReturnsAsync((int id, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Get(It.IsAny<int>(), CancellationToken.None, true)).ReturnsAsync((int id, CancellationToken cancellation, bool disablaTracking) =>
             {
                 return list.Where(p => p.Id == id && p.IsDeleted == false).FirstOrDefault();
             });
 
-            mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<TaskBoard, bool>>>(), CancellationToken.None)).ReturnsAsync((Expression<Func<TaskBoard, bool>> expression, CancellationToken cancellation) =>
+            mockRepo.Setup(r => r.Get(It.IsAny<Expression<Func<TaskBoard, bool>>>(), CancellationToken.None, true)).ReturnsAsync((Expression<Func<TaskBoard, bool>> expression, CancellationToken cancellation, bool disablaTracking) =>
             {
                 return list.AsQueryable().Where(expression).Where(p => p.IsDeleted == false).ToList();
             });
@@ -35,6 +35,7 @@ namespace RamSoft.UnitTest.Mock
             mockRepo.Setup(r => r.Add(It.IsAny<TaskBoard>(), CancellationToken.None)).ReturnsAsync((TaskBoard data, CancellationToken cancellation) =>
             {
                 list.Add(data);
+                _TaskBoardStatesRepository.Add( data.TaskBoardStateList.First(), cancellation);
                 return data;
             });
 

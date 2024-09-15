@@ -19,11 +19,11 @@ namespace RamSoft.Infrastructure.Configurations.Jira
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(d => d.TaskBoard)
-                .WithMany()
+                .WithMany(d => d.TaskBoardStateList)
                 .HasForeignKey(d => d.TaskBoardId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Property<byte[]>("Version").IsRowVersion();
+            builder.Property(x => x.RowVersion).HasColumnType("RowVersion").IsRowVersion();
 
             /*base my exprience I inclueded author automatically*/
             builder.Navigation(e => e.States).AutoInclude();
